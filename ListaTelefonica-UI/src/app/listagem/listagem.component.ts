@@ -15,6 +15,8 @@ export class ListagemComponent implements OnInit {
   pessoas: Array<Pessoa> = [];
   pessoaSearch: string;
   cpfSearch: string;
+  ano = new Date().getFullYear();
+
 
   constructor(private service: PessoaService,
     private router: Router,
@@ -43,7 +45,7 @@ export class ListagemComponent implements OnInit {
   }
 
   calculateIdade(date) {
-    return new Date().getFullYear() - new Date(date).getFullYear();
+    return this.ano - new Date(date).getFullYear();
   }
 
   deletePessoa(id: number) {
