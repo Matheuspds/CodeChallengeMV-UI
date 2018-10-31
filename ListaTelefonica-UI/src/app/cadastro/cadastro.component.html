@@ -70,6 +70,9 @@
   </p-table>
 </p-panel>
 
+<p-growl [(value)]="msgs">
+
+</p-growl>
 <div class="ui-g-1">
   <button pButton label="Cadastrar" (click)="savePessoa()" [disabled]="validateForm() == true"></button>
 </div>

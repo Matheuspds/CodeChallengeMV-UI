@@ -10,6 +10,7 @@ import { PanelModule } from 'primeng/panel';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import {InputMaskModule} from 'primeng/inputmask';
+import { GrowlModule} from 'primeng/growl'
 
 import { AppComponent } from './app.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
     ButtonModule,
     PanelModule,
     ConfirmDialogModule,
-    InputMaskModule
+    InputMaskModule,
+    GrowlModule
   ],
   providers: [PessoaService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]

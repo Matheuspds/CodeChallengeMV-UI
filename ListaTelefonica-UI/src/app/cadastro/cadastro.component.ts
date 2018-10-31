@@ -3,7 +3,8 @@ import { Router } from '@angular/router'
 import { Pessoa } from '../pessoa'
 import { Telefone } from '../telefone'
 import { PessoaService } from '../pessoa.service'
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Message } from 'primeng/components/common/api';
 
 @Component({
   selector: 'app-cadastro',
@@ -16,9 +17,11 @@ export class CadastroComponent implements OnInit, OnDestroy {
   listTelefone: Array<Telefone> = []
   telefone: Telefone = new Telefone()
   edit: boolean = false;
+  msgs: Message[]
 
   constructor(private service: PessoaService, private router: Router,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService) { }
 
   async ngOnInit() {
     try {
@@ -48,19 +51,34 @@ export class CadastroComponent implements OnInit, OnDestroy {
     this.pessoa.listTelefone = this.listTelefone
     this.service.savePessoa(this.pessoa).subscribe(
       (data) => {
-        this.goBack()
+        this.msgs = []
+        this.msgs.push({ severity: 'success', summary: 'Mensagem de Sucesso', detail: 'Pessoa Cadastrada com Sucesso' });
+        setTimeout(() => this.goBack(), 1000)
       },
-      (error) => console.log(error)
+      (error) => {
+        this.getMessage(error)
+      }
     )
   }
 
+  getMessage(error){
+    var msgs = JSON.parse(error._body).messages;
+    this.msgs = [];
+    msgs.map((msg)=>{
+      this.msgs.push({ severity: 'warn', summary: 'Mensagem de Erro', 
+        detail: msg.text });
+    })
+  }
   editPessoa() {
     this.pessoa.listTelefone = this.listTelefone
     this.service.editPessoa(this.pessoa).subscribe(
       (data) => {
-        this.goBack()
+        this.msgs.push({ severity: 'success', summary: 'Mensagem de Sucesso', detail: 'Pessoa Editada com Sucesso' });
+        setTimeout(() => this.goBack(), 1000)
       },
-      (error) => console.log(error)
+      (error) => {
+        this.getMessage(error)
+      }
     )
   }
 
